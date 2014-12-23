@@ -41,7 +41,7 @@ rdm <- function(n, m, p, phi=NULL, scale=NULL) {
     }
     alphas <- mdmAlphas(params)
 	# choose initial 
-	y <- rmultinomial(n,1,p)
+	y <- mc2d::rmultinomial(n,1,p)
 	# update params, conditional on what has occurred
 	ny <- nrow(y)
 	na <- nrow(alphas)
@@ -57,7 +57,7 @@ rdm <- function(n, m, p, phi=NULL, scale=NULL) {
 		a <- y + alphas
 	}
 	# choose following
-	y+rmultinomial(n,m-1,rdirichlet(n,a))	
+	y+ mc2d::rmultinomial(n,m-1,mc2d::rdirichlet(n,a))	
 }
 
 #' Generate random samples from a mixture of Direchelet Multinomials
@@ -109,7 +109,7 @@ rmdm <- function(n, m, p, f, phi=NULL, scale=NULL ) {
 	}
 	
 	# generate the mixture
-	q <- rmultinomial(1, n, f)
+	q <-  mc2d::rmultinomial(1, n, f)
 	mix <- rep.int(seq_len(k), q)
 	mix <- sample(mix)
 	# generate the samples
