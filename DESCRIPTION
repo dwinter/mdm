@@ -2,13 +2,14 @@ Package: mdm
 Title: Mixtures of Dirichelet-Multinomial distributions
 Version: 0.1
 Authors@R: c(
-  person("Reed", "Cartwright", email = ".@.", role = "aut"),
-  person("David", "Winter", email = ".@.", role = c("aut", "cre")),
-)
+    person("Reed", "Cartwright", email = ".@.", role = "aut"),
+    person("David", "Winter", email = ".@.", role = c("aut", "cre")))
+Maintainer: David Winter <david.winter@gmail.com>
 Description: Handles mixtures of Dirichelet-multinomial (Polya) distributions
-Depends: R (>= 3.0)
+Depends:
+    R (>= 3.0)
 Imports:
-    mcd2,
+    mc2d,
     MASS,
     hypergeo
 License: GPL2
