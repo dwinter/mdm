@@ -28,20 +28,18 @@ rdm <- function(n, m, phi=NULL, p=NULL, scale=NULL) {
             stop("Must specify 'p' probability vector/matrix when using phi parameterization")
         }
 	    params <- mdmParams(phi,p)
+    } else  params <- mdmParams(scale)
     
-    	if(any(params[,1] < 0.0 | 1.0 < params[,1])) {
-		    stop("phi must be in [0,1].")
-	    }
-        if(any(params[,-1] <= 0.0 | 1.0 <= params[,-1])) {
-	    	stop("p must be in (0,1).")
-    	}
-	    params[params[,1] < .Machine$double.eps/2,1] <- .Machine$double.eps/2
-    	p <- params[,-1,drop=FALSE]
     
+    if(any(params[,1] < 0.0 | 1.0 < params[,1])) {
+        stop("phi must be in [0,1].")
     }
-    else{
-       params <- mdmParams(scale)
+    if(any(params[,-1] <= 0.0 | 1.0 <= params[,-1])) {
+        stop("p must be in (0,1).")
     }
+
+    params[params[,1] < .Machine$double.eps/2,1] <- .Machine$double.eps/2
+    p <- params[,-1,drop=FALSE]
     alphas <- mdmAlphas(params)
 	# choose initial 
 	y <- mc2d::rmultinomial(n,1,p)
@@ -93,23 +91,24 @@ rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
         if(is.null(p)){
             stop("Must specify 'p' probability vector/matrix when using phi parameterization")
         }
-	    params <- mdmParams(phi,p)
-    
-    	if(any(params[,1] < 0.0 | 1.0 < params[,1])) {
-		    stop("phi must be in [0,1].")
-	    }
-        if(any(params[,-1] <= 0.0 | 1.0 <= params[,-1])) {
-	    	stop("p must be in (0,1).")
-    	}
-	    params[params[,1] < .Machine$double.eps/2,1] <- .Machine$double.eps/2
-    	p <- params[,-1,drop=FALSE]
-    
-    }
-    else{
+        params <- mdmParams(phi,p)
+
+    } else {
         params <- mdmParams(scale)
     }
+    
+    if(any(params[,1] < 0.0 | 1.0 < params[,1])) {
+        stop("phi must be in [0,1].")
+    }
+    if(any(params[,-1] <= 0.0 | 1.0 <= params[,-1])) {
+        stop("p must be in (0,1).")
+    }
+    params[params[,1] < .Machine$double.eps/2,1] <- .Machine$double.eps/2
+    p <- params[,-1,drop=FALSE]
+    
+    
     alphas <- mdmAlphas(params)
-	k <- nrow(p)
+	k <- nrow(params)
 	if(length(f) != k) {
 		stop("The length of 'f' and number of rows in params must be equal.")
 	}
