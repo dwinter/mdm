@@ -19,11 +19,14 @@
 
 
 
-rdm <- function(n, m, p, phi=NULL, scale=NULL) {
-    if ((is.null(scale) + is.null(p)) != 1){
-        stop("Must specify either (but not both) 'scale' (alpha) or 'p' vector")
+rdm <- function(n, m, phi=NULL, p=NULL, scale=NULL) {
+    if ((is.null(scale) + is.null(phi)) != 1){
+        stop("Must specify either (but not both) 'scale' (alpha) or 'phi'")
     }
     if(is.null(scale)){
+        if(is.null(p)){
+            stop("Must specify 'p' probability vector/matrix when using phi parameterization")
+        }
 	    params <- mdmParams(phi,p)
     
     	if(any(params[,1] < 0.0 | 1.0 < params[,1])) {
@@ -82,11 +85,14 @@ rdm <- function(n, m, p, phi=NULL, scale=NULL) {
 #' rmdm(10, 40, phi=0.01,f=nfreq,  p=genotypes)
 
 
-rmdm <- function(n, m, p, f, phi=NULL, scale=NULL ) {
-    if ((is.null(scale) + is.null(p)) != 1){
+rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
+    if ((is.null(scale) + is.null(phi)) != 1){
         stop("Must specify either (but not both) 'scale' (alpha) or 'p' proportions")
     }
     if(is.null(scale)){
+        if(is.null(p)){
+            stop("Must specify 'p' probability vector/matrix when using phi parameterization")
+        }
 	    params <- mdmParams(phi,p)
     
     	if(any(params[,1] < 0.0 | 1.0 < params[,1])) {
