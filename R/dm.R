@@ -1,3 +1,26 @@
+make_params <- function(phi = NULL, p=NULL, scale=NULL){
+    if ((is.null(scale) + is.null(phi)) != 1){
+        stop("Must specify either (but not both) 'scale' (alpha) or 'phi'")
+    }
+    if(is.null(scale)){
+        if(is.null(p)){
+            stop("Must specify 'p' probability vector/matrix when using phi parameterization")
+        }
+	    params <- mdmParams(phi,p)
+    } else   params <- mdmParams(scale)
+        if(any(params[,1] < 0.0 | 1.0 < params[,1])) {
+        stop("phi must be in [0,1].")
+    }
+    if(any(params[,-1] <= 0.0 | 1.0 <= params[,-1])) {
+        stop("p must be in (0,1).")
+    }
+
+    params[params[,1] < .Machine$double.eps/2,1] <- .Machine$double.eps/2
+    params
+}
+
+
+
 #' Generate random samples of Direchelet Multinomial observations
 #' @param n  number of observations 
 #' @param m  observation sizes vector possibly of length one.
@@ -20,25 +43,9 @@
 
 
 rdm <- function(n, m, phi=NULL, p=NULL, scale=NULL) {
-    if ((is.null(scale) + is.null(phi)) != 1){
-        stop("Must specify either (but not both) 'scale' (alpha) or 'phi'")
-    }
-    if(is.null(scale)){
-        if(is.null(p)){
-            stop("Must specify 'p' probability vector/matrix when using phi parameterization")
-        }
-	    params <- mdmParams(phi,p)
-    } else  params <- mdmParams(scale)
-    
-    
-    if(any(params[,1] < 0.0 | 1.0 < params[,1])) {
-        stop("phi must be in [0,1].")
-    }
-    if(any(params[,-1] <= 0.0 | 1.0 <= params[,-1])) {
-        stop("p must be in (0,1).")
-    }
 
-    params[params[,1] < .Machine$double.eps/2,1] <- .Machine$double.eps/2
+    params <- make_params(phi, p, scale) 
+    
     p <- params[,-1,drop=FALSE]
     alphas <- mdmAlphas(params)
 	# choose initial 
@@ -60,6 +67,28 @@ rdm <- function(n, m, phi=NULL, p=NULL, scale=NULL) {
 	# choose following
 	y+ mc2d::rmultinomial(n,m-1,mc2d::rdirichlet(n,a))	
 }
+
+#' Calculate the likelihood of a given Direchelet Multiomial model
+#' @param p  matrix or vector of proportions
+#' @param phi overdispersion paramater. Value must be in [0,1], where phi=0 
+#' is 'pure' Multinomial distribuion and increasing values of phi lead to
+#' increasingly over-dispersed distributions. 
+#' @param scale Scale parameters, vector of matrix.
+
+
+ddm <- function(x, phi=NULL, scale=NULL, p=NULL, log=TRUE){
+   params <- make_params(phi, p, scale)
+   summ <- mdmSumStats(x)
+   params <- params[1,c(TRUE, summ$mask)]
+   res <- mdmSingleLogLikeCore(s, params)
+   if(!log){
+      return(exp(res))
+   }
+  res 
+}
+
+
+
 
 #' Generate random samples from a mixture of Dirchelet Multinomials
 #' @param n  number of observations 
@@ -84,26 +113,8 @@ rdm <- function(n, m, phi=NULL, p=NULL, scale=NULL) {
 
 
 rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
-    if ((is.null(scale) + is.null(phi)) != 1){
-        stop("Must specify either (but not both) 'scale' (alpha) or 'p' proportions")
-    }
-    if(is.null(scale)){
-       if(is.null(p)){
-            stop("Must specify 'p' probability vector/matrix when using phi parameterization")
-        }
-        params <- mdmParams(phi,p)
 
-    } else {
-        params <- mdmParams(scale)
-    }
-    
-    if(any(params[,1] <= 0.0 | 1.0 < params[,1])) {
-        stop("phi must be in (0,1].")
-    }
-    if(any(params[,-1] <= 0.0 | 1.0 <= params[,-1])) {
-        stop("p must be in (0,1).")
-    }
-
+    params <- make_params(phi, p, scale) 
 	k <- nrow(params)
 	if(length(f) != k) {
 		stop("The length of 'f' and number of rows in params must be equal.")
@@ -120,3 +131,27 @@ rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
 	rownames(x) <- mix
 	x
 }
+
+
+
+#' Calculate the likelihood of a given mixture of Direchelet Multiomials model
+#' @param p  matrix or vector of proportions
+#' @param phi overdispersion paramater. Value must be in [0,1], where phi=0 
+#' is 'pure' Multinomial distribuion and increasing values of phi lead to
+#' increasingly over-dispersed distributions. 
+#' @param scale Scale parameters, vector of matrix.
+#' @param f mixture proportions
+
+dmdm <- function(x, phi=NULL, scale=NULL, p=NULL, f, log=TRUE){
+   params <- make_params(phi, p, scale)
+   r <- mdmAugmentData(x)
+   mask <- c(TRUE,r$mask)
+   params <- params[,mask]
+   res <- mdmLogLikeCore(r$y,r$w,f, params)
+   if(!log){
+      return(exp(res))
+   }
+  res 
+}
+
+
