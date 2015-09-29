@@ -355,7 +355,7 @@ mdmLogLikeCore <- function(r,w,f,params) {
 }
 
 
-# fit a dirichlet-multinomial distribution
+#' Fit a dirichlet-multinomial distribution
 # using maximum likelihood
 #TODO: paramter sanity check
 #'@export
@@ -415,8 +415,7 @@ fit_dm <- function(x,phi=NULL,p=NULL,phTol=100,phAcc=40,cycles=1000,traceLevel=0
 		score=score,cycles=ret$cycles)
 }
 
-# fit a mixture of dirichlet-multinomial distributions
-# using maximum likelihood
+#'Fit a mixture of dirichlet-multinomial distributions using maximum likelihood
 #'@importFrom MASS ginv
 #'@export
 #'@param x A matrix of integers from which to estimate the DM-model

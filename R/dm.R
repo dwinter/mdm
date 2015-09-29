@@ -74,7 +74,7 @@ rdm <- function(n, m, phi=NULL, p=NULL, scale=NULL) {
 #' is 'pure' Multinomial distribuion and increasing values of phi lead to
 #' increasingly over-dispersed distributions. 
 #' @param scale Scale parameters, vector of matrix.
-
+#' @export
 
 ddm <- function(x, phi=NULL, scale=NULL, p=NULL, log=TRUE){
    params <- make_params(phi, p, scale)
@@ -141,6 +141,7 @@ rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
 #' increasingly over-dispersed distributions. 
 #' @param scale Scale parameters, vector of matrix.
 #' @param f mixture proportions
+#' @export
 
 dmdm <- function(x, phi=NULL, scale=NULL, p=NULL, f, log=TRUE){
    params <- make_params(phi, p, scale)

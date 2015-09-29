@@ -2,12 +2,16 @@
 % Please edit documentation in R/fit.r
 \name{fit_mdm}
 \alias{fit_mdm}
+\title{Fit a mixture of dirichlet-multinomial distributions using maximum likelihood}
 \usage{
 fit_mdm(x, f = 1L, phi = NULL, p = NULL, phTol = 100, cycles = 1000,
   cyclesInner = NULL, phAcc = 40, traceLevel = 0L, fixStart = FALSE)
 }
 \arguments{
 \item{x}{A matrix of integers from which to estimate the DM-model}
+}
+\description{
+Fit a mixture of dirichlet-multinomial distributions using maximum likelihood
 }
 \examples{
 genotypes <- matrix( 0.01/3, nrow=4, ncol=4)
