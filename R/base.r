@@ -13,9 +13,10 @@ mdmAlphas <- function(v,total=FALSE) {
 		a <- cbind(a,aa=at)
 	}
 	rownames(a) <- NULL
-	a
+	structure(a, class="mdmAlphas")
 }
 
+#Convert proportions or dispersion params into a paramater vector
 mdmParams <- function(phi, p=NULL) {
 	if(inherits(phi, "mdmParams")) {
 		return(phi)
