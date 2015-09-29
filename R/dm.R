@@ -2,7 +2,7 @@
 #' @param n  number of observations 
 #' @param m  observation sizes vector possibly of length one.
 #' @param p  matrix or vector of proportions
-#' @param phi Overdispersion paramater. Value must be in [0,1], where phi=0 
+#' @param phi overdispersion paramater. Value must be in [0,1], where phi=0 
 #' is 'pure' Multinomial distribuion and increasing values of phi lead to
 #' increasingly over-dispersed distributions. 
 #' @param scale Scale parameters, vector of matrix.
@@ -61,7 +61,7 @@ rdm <- function(n, m, phi=NULL, p=NULL, scale=NULL) {
 	y+ mc2d::rmultinomial(n,m-1,mc2d::rdirichlet(n,a))	
 }
 
-#' Generate random samples from a mixture of Direchelet Multinomials
+#' Generate random samples from a mixture of Dirchelet Multinomials
 #' @param n  number of observations 
 #' @param m  observation sizes vector possibly of length one.
 #' @param p  matrix or vector of proportions
@@ -79,8 +79,8 @@ rdm <- function(n, m, phi=NULL, p=NULL, scale=NULL) {
 #' genotypes <- matrix( 0.01/3, nrow=4, ncol=4)
 #' diag(genotypes) <- 0.99
 #' nfreq <- c(0.4, 0.1, 0.1, 0.4)
-#' rmdm(10, 40, phi=0, f=nfreq p=genotypes)
-#' rmdm(10, 40, phi=0.01,f=nfreq,  p=genotypes)
+#' rmdm(10, 40, phi=0,    f=nfreq, p=genotypes)
+#' rmdm(10, 40, phi=0.01, f=nfreq, p=genotypes)
 
 
 rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
@@ -88,7 +88,7 @@ rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
         stop("Must specify either (but not both) 'scale' (alpha) or 'p' proportions")
     }
     if(is.null(scale)){
-        if(is.null(p)){
+       if(is.null(p)){
             stop("Must specify 'p' probability vector/matrix when using phi parameterization")
         }
         params <- mdmParams(phi,p)
@@ -97,17 +97,13 @@ rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
         params <- mdmParams(scale)
     }
     
-    if(any(params[,1] < 0.0 | 1.0 < params[,1])) {
-        stop("phi must be in [0,1].")
+    if(any(params[,1] <= 0.0 | 1.0 < params[,1])) {
+        stop("phi must be in (0,1].")
     }
     if(any(params[,-1] <= 0.0 | 1.0 <= params[,-1])) {
         stop("p must be in (0,1).")
     }
-    params[params[,1] < .Machine$double.eps/2,1] <- .Machine$double.eps/2
-    p <- params[,-1,drop=FALSE]
-    
-    
-    alphas <- mdmAlphas(params)
+
 	k <- nrow(params)
 	if(length(f) != k) {
 		stop("The length of 'f' and number of rows in params must be equal.")
@@ -118,7 +114,8 @@ rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
 	mix <- rep.int(seq_len(k), q)
 	mix <- sample(mix)
 	# generate the samples
-	x <- rdm(n,m,params[mix,])
+    alphas <- mdmAlphas(params)
+	x <- rdm(n,m,scale=alphas[mix,])
 	# use the rownames to store the mixture categories
 	rownames(x) <- mix
 	x
