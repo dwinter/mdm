@@ -16,6 +16,14 @@ increasingly over-dispersed distributions.}
 \item{p}{matrix or vector of proportions}
 
 \item{f}{mixture proportions}
+
+\item{log}{logical if TRUE (default) return the log likelihood}
+}
+\value{
+ll numeric the (log)-likelihood given by the paramaters and data
+
+w numeric matrix with the probabilities that a given observation is
+        belongs to a model-component in f
 }
 \description{
 Calculate the likelihood of a given mixture of Direchelet Multiomials model

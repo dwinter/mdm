@@ -14,6 +14,11 @@ increasingly over-dispersed distributions.}
 \item{scale}{Scale parameters, vector of matrix.}
 
 \item{p}{matrix or vector of proportions}
+
+\item{log}{logical if TRUE (default) return the log likelihood}
+}
+\value{
+numeric the (log)-likelihood given by the paramaters and data
 }
 \description{
 Calculate the likelihood of a given Direchelet Multiomial model

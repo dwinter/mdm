@@ -74,6 +74,8 @@ rdm <- function(n, m, phi=NULL, p=NULL, scale=NULL) {
 #' is 'pure' Multinomial distribuion and increasing values of phi lead to
 #' increasingly over-dispersed distributions. 
 #' @param scale Scale parameters, vector of matrix.
+#' @param log logical if TRUE (default) return the log likelihood
+#' @return numeric the (log)-likelihood given by the paramaters and data
 #' @export
 
 ddm <- function(x, phi=NULL, scale=NULL, p=NULL, log=TRUE){
@@ -141,6 +143,10 @@ rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
 #' increasingly over-dispersed distributions. 
 #' @param scale Scale parameters, vector of matrix.
 #' @param f mixture proportions
+#' @param log logical if TRUE (default) return the log likelihood
+#' @return ll numeric the (log)-likelihood given by the paramaters and data
+#' @return w numeric matrix with the probabilities that a given observation is
+#'         belongs to a model-component in f
 #' @export
 
 dmdm <- function(x, phi=NULL, scale=NULL, p=NULL, f, log=TRUE){
