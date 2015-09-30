@@ -433,7 +433,7 @@ fit_mdm <- function(x,f=1L,phi=NULL,p=NULL,phTol=100,cycles=1000,
 	}
 	
 	if(length(f) == 1 && f == 1) {
-		ret <- mdmSingle(x,phi,p,phTol=phTol,
+		ret <- fit_dm(x,phi,p,phTol=phTol,
 				cycles=cycles,traceLevel=traceLevel)
 		return(ret)
 	}
