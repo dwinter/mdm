@@ -80,7 +80,7 @@ ddm <- function(x, phi=NULL, scale=NULL, p=NULL, log=TRUE){
    params <- make_params(phi, p, scale)
    summ <- mdmSumStats(x)
    params <- params[1,c(TRUE, summ$mask)]
-   res <- mdmSingleLogLikeCore(s, params)
+   res <- mdmSingleLogLikeCore(summ$s, params)
    if(!log){
       return(exp(res))
    }
