@@ -30,7 +30,7 @@ logLik.mdm_model<- function(x) x$ll
 coef.mdm_model <- function(x) x$params
 
 #'@export
-print.mdmd_model <- function(x, ...){
+print.mdm_model <- function(x, ...){
     mtype <- if( !is.null(x[["f"]]) ) "mixture" else ""
     cat(paste("Dirichelet multinomial", mtype, "model\n\n"))
     cat("Log likelihood:\t", logLik(x), "\n")
