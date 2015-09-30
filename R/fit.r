@@ -409,10 +409,13 @@ fit_dm <- function(x,phi=NULL,p=NULL,phTol=100,phAcc=40,cycles=1000,traceLevel=0
 	#retParams <- t(retParams)
 	#rownames(retParams) <- "m1"
 	
-	list(ll=ret$ll,
-		params=vecParams,freeParams=freeParams,
-		covar=covar,obsInformation=info,
-		score=score,cycles=ret$cycles)
+	structure(
+        list(ll=ret$ll,
+	    	params=vecParams,freeParams=freeParams,
+		    covar=covar,obsInformation=info,
+    		score=score,cycles=ret$cycles, nobs=nrow(x)), 
+       class="mdm_model"
+    )
 }
 
 #'Fit a mixture of dirichlet-multinomial distributions using maximum likelihood
@@ -768,12 +771,13 @@ fit_mdm <- function(x,f=1L,phi=NULL,p=NULL,phTol=100,cycles=1000,
 	
 	colnames(Io) <- names(freeParams)
 	rownames(Io) <- names(freeParams)
-	
-	list(ll=ll,f=retF,params=retParams,
-		vecParams=vecParams,freeParams=freeParams,
-		obsInformation=Io,covar=covar, score=Se,
-		cycles=cyc
-	)
+	structure(
+    	list(ll=ll,f=retF,params=retParams,
+	    	vecParams=vecParams,freeParams=freeParams,
+		    obsInformation=Io,covar=covar, score=Se,
+    		cycles=cyc, nobs=nrow(x)),
+        class="mdm_model"
+    )
 }
 
 # Paul et al (2005) 10.1002/bimj.200410103
