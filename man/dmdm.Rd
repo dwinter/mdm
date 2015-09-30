@@ -2,7 +2,7 @@
 % Please edit documentation in R/dm.R
 \name{dmdm}
 \alias{dmdm}
-\title{Calculate the likelihood of a given mixture of Direchelet Multiomials model}
+\title{Calculate the likelihood of a given mixture of Dirichelet Multiomials model}
 \usage{
 dmdm(x, phi = NULL, scale = NULL, p = NULL, f, log = TRUE)
 }
@@ -26,6 +26,6 @@ w numeric matrix with the probabilities that a given observation is
         belongs to a model-component in f
 }
 \description{
-Calculate the likelihood of a given mixture of Direchelet Multiomials model
+Calculate the likelihood of a given mixture of Dirichelet Multiomials model
 }
 

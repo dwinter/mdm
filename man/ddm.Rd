@@ -2,7 +2,7 @@
 % Please edit documentation in R/dm.R
 \name{ddm}
 \alias{ddm}
-\title{Calculate the likelihood of a given Direchelet Multiomial model}
+\title{Calculate the likelihood of a given Dirichelet Multiomial model}
 \usage{
 ddm(x, phi = NULL, scale = NULL, p = NULL, log = TRUE)
 }
@@ -21,6 +21,6 @@ increasingly over-dispersed distributions.}
 numeric the (log)-likelihood given by the paramaters and data
 }
 \description{
-Calculate the likelihood of a given Direchelet Multiomial model
+Calculate the likelihood of a given Dirichelet Multiomial model
 }
 

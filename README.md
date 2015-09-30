@@ -1,5 +1,5 @@
-# Fitting mixtures of direchelet multinomials in R
+# Fitting mixtures of Dirichelet Multinomials in R
 
-The first stages of a package for working with mixtures of dirchelet multimomial
+The first stages of a package for working with mixtures of Dirchilet Multimomial
 distributions in R. 
 

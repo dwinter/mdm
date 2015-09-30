@@ -21,7 +21,7 @@ make_params <- function(phi = NULL, p=NULL, scale=NULL){
 
 
 
-#' Generate random samples of Direchelet Multinomial observations
+#' Generate random samples of Dirichelet Multinomial observations
 #' @param n  number of observations 
 #' @param m  observation sizes vector possibly of length one.
 #' @param p  matrix or vector of proportions
@@ -68,7 +68,7 @@ rdm <- function(n, m, phi=NULL, p=NULL, scale=NULL) {
 	y+ mc2d::rmultinomial(n,m-1,mc2d::rdirichlet(n,a))	
 }
 
-#' Calculate the likelihood of a given Direchelet Multiomial model
+#' Calculate the likelihood of a given Dirichelet Multiomial model
 #' @param p  matrix or vector of proportions
 #' @param phi overdispersion paramater. Value must be in [0,1], where phi=0 
 #' is 'pure' Multinomial distribuion and increasing values of phi lead to
@@ -136,7 +136,7 @@ rmdm <- function(n, m,  f, phi=NULL, p=NULL, scale=NULL ) {
 
 
 
-#' Calculate the likelihood of a given mixture of Direchelet Multiomials model
+#' Calculate the likelihood of a given mixture of Dirichelet Multiomials model
 #' @param p  matrix or vector of proportions
 #' @param phi overdispersion paramater. Value must be in [0,1], where phi=0 
 #' is 'pure' Multinomial distribuion and increasing values of phi lead to

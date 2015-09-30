@@ -2,7 +2,7 @@
 % Please edit documentation in R/dm.R
 \name{rdm}
 \alias{rdm}
-\title{Generate random samples of Direchelet Multinomial observations}
+\title{Generate random samples of Dirichelet Multinomial observations}
 \usage{
 rdm(n, m, phi = NULL, p = NULL, scale = NULL)
 }
@@ -23,7 +23,7 @@ increasingly over-dispersed distributions.}
 A matrix of n-rows, each row representing a random draw from
 }
 \description{
-Generate random samples of Direchelet Multinomial observations
+Generate random samples of Dirichelet Multinomial observations
 }
 \examples{
 #simulate reads with 1\% sequencing error
