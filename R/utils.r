@@ -1,5 +1,6 @@
-hash <- function(x) apply(x, 1, paste, collapse="|")
-
+match_rows <- function(big_m, u_m){
+ apply(big_m ,1, function(r) which(apply(u_m, 1, identical, x=r)))
+}
 #' Calcualte the probabiliy that each of a set of observation belongs each
 #' component in mixture of Dirichelet Multinomials
 #'@export
@@ -10,8 +11,7 @@ get_component_probs <- function(x, fit){
         stop("Model has only one component")
     }
     LL <- dmdm(x=x, phi=fit$params[,1], p=fit$params[,-1], f=fit$f)
-    rownames(LL$w) <- hash(unique(x))
-    LL$w[hash(x),]
+    LL$w[match_rows(x, unique(x)),]
 }
 
 #'@export
