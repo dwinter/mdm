@@ -15,22 +15,25 @@ get_component_probs <- function(x, fit){
 }
 
 #'@export
-AIC.mdm_model <- function(x){
-    k <- length(x$freeParams)
-    2*k - 2 * x$ll
+AIC.mdm_model <- function(object, ..., k=NULL){
+    if(is.null(object)){
+        k <- length(object$freeParams)
+    }
+    2*k - 2 * object$ll
+}
+
+#'@importFrom stats4 BIC
+#'@export
+BIC.mdm_model <- function(object, ...){
+    k <- length(object$freeParams)
+    -2 * object$ll + k * log(object$nobs)
 }
 
 #'@export
-BIC.mdm_model <- function(x){
-    k <- length(x$freeParams)
-    -2 * x$ll + k * log(x$nobs)
-}
+logLik.mdm_model<- function(object, ...) object$ll
 
 #'@export
-logLik.mdm_model<- function(x) x$ll
-
-#'@export
-coef.mdm_model <- function(x) x$params
+coef.mdm_model <- function(object, ...) object$params
 
 #'@export
 print.mdm_model <- function(x, ...){
@@ -40,8 +43,9 @@ print.mdm_model <- function(x, ...){
     if(mtype == "mixture"){
         cat("Mixture proportions:\t [", paste(round(x$f,2), collapse=", "), "]\n", sep="")
     }
-    cat("BIC:\t", BIC(x), "\n\n")
     cat("Paramater estimates:\n")
+    cat("AIC:\t", AIC(x), "\n")
+    cat("BIC:\t", BIC(x), "\n\n")
     print(x$params)
     cat("\n\n")
 }

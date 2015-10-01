@@ -36,7 +36,7 @@ make_params <- function(phi = NULL, p=NULL, scale=NULL){
 #' #simulate reads with 1% sequencing error
 #' genotypes <- matrix( 0.01/3, nrow=4, ncol=4)
 #' diag(genotypes) <- 0.99
-#' round(genotyes,3)
+#' round(genotypes,3)
 #' rdm(4, 40, phi=0, p=genotypes)
 #' rdm(4, 40, phi=0.01, p=genotypes)
 
