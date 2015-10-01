@@ -1,4 +1,4 @@
-hash <- function(x) apply(x, 1, paste, collapse="")
+hash <- function(x) apply(x, 1, paste, collapse="|")
 
 #' Calcualte the probabiliy that each of a set of observation belongs each
 #' component in mixture of Dirichelet Multinomials
