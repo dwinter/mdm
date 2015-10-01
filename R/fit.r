@@ -771,7 +771,7 @@ fit_mdm <- function(x,f=1L,phi=NULL,p=NULL,phTol=100,cycles=1000,
 	
 	colnames(Io) <- names(freeParams)
 	rownames(Io) <- names(freeParams)
-	structure(
+    structure(
     	list(ll=ll,f=retF,params=retParams,
 	    	vecParams=vecParams,freeParams=freeParams,
 		    obsInformation=Io,covar=covar, score=Se,
@@ -833,3 +833,5 @@ mdmSingleInfo <- function(x,phi,p=NULL) {
 	h[1,1] <- -(sum(hh)-hz)*(A+1)^3
 	h
 }
+
+
