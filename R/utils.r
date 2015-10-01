@@ -6,6 +6,9 @@ hash <- function(x) apply(x, 1, paste, collapse="|")
 #'@param x matrix of counts, with on row per obseravation
 #'@param fit fitted model from which component probabilities will be calculated
 get_component_probs <- function(x, fit){
+    if(is.null(fit$f)){
+        stop("Model has only one component")
+    }
     LL <- dmdm(x=x, phi=fit$params[,1], p=fit$params[,-1], f=fit$f)
     rownames(LL$w) <- hash(unique(x))
     LL$w[hash(x),]
