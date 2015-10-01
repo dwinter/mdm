@@ -32,9 +32,16 @@ test_that("accessors for single mdm models work", {
     expect_is(BIC(mod_1), "numeric")
 })
 
-test_that("accessors for ,mixed mdm models work", {
+test_that("accessors for mixed mdm models work", {
     expect_is(logLik(mod_2), "numeric")
     expect_is(coef(mod_2), "matrix")
     expect_is(AIC(mod_2), "numeric")
     expect_is(BIC(mod_2), "numeric")
+})
+
+test_that("we can calculate group-assignments for a model", {
+    comps <- get_component_probs(mm, mod_2)
+    expect_error(get_component_probs(m, mod_1), "Model has only one component")
+    expect_equal(dim(comps), c(dim(mm)[1], length(mod_2$f)))
+    expect_true(all(sapply(rowSums(res), all.equal, target=1.0)))
 })
